@@ -27,7 +27,7 @@ pipeline {
                     reportFiles: 'index.html',
                     reportName: "JaCoCo Report"
                 ])
-                bat "./gradlew jacocoTestCoverageVerification"
+                sh "./gradlew jacocoTestCoverageVerification"
             }
         }
         stage('Static code analysis') {
