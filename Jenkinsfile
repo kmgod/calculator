@@ -47,13 +47,13 @@ pipeline {
         }
         stage('Docker build') {
             steps {
-                sh "docker build -t http://192.168.56.31:443/dockeruser/claculator ."
+                sh "docker build -t https://192.168.56.31:443/dockeruser/claculator:latest ."
             }
         }
-        stage('Docker push') {
-            steps {
-                sh "docker push -t http://192.168.56.31:443/dockeruser/claculator ."
-            }
-        }
+        // stage('Docker push') {
+        //     steps {
+        //         sh "docker push -t https://192.168.56.31:443/dockeruser/claculator:1"
+        //     }
+        // }
     }
 }
