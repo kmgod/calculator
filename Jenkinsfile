@@ -10,17 +10,17 @@ pipeline {
         }
         stage('Compile') {
             steps {
-                bat "./gradlew compileJava"
+                sh "./gradlew compileJava"
             }
         }
         stage('Unit test') {
             steps {
-                bat "./gradlew test"
+                sh "./gradlew test"
             }
         }
         stage('Code coverage') {
             steps {
-                bat "./gradlew jacocoTestReport"
+                sh "./gradlew jacocoTestReport"
                 publishHTML (target: [
                     reportDir: 'build/reports/jacoco/test/html',
                     reportFiles: 'index.html',
@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Static code analysis') {
             steps {
-                bat "./gradlew checkstyleMain"
+                sh "./gradlew checkstyleMain"
                 publishHTML (target: [
                     reportDir: 'build/reports/checkstyle/',
                     reportFiles: 'main.html',
@@ -41,17 +41,17 @@ pipeline {
         }
         stage('Package') {
             steps {
-                bat "./gradlew build"
+                sh "./gradlew build"
             }
         }
         stage('Docker build') {
             steps {
-                bat "docker build -t http://192.168.56.31:443/dockeruser/claculator ."
+                sh "docker build -t http://192.168.56.31:443/dockeruser/claculator ."
             }
         }
         stage('Docker push') {
             steps {
-                bat "docker push -t http://192.168.56.31:443/dockeruser/claculator ."
+                sh "docker push -t http://192.168.56.31:443/dockeruser/claculator ."
             }
         }
     }
