@@ -52,7 +52,7 @@ pipeline {
         }
         stage('Docker push') {
             steps {
-                sh "docker push -t 127.0.0.1:443/dockeruser/calculator"
+                sh "docker push 127.0.0.1:443/dockeruser/calculator"
             }
         }
     }
