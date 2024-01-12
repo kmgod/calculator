@@ -46,7 +46,12 @@ pipeline {
         }
         stage('Docker build') {
             steps {
-                bat "docker build -t dockeruser/claculator ."
+                bat "docker build -t http://192.168.56.31:443/dockeruser/claculator ."
+            }
+        }
+        stage('Docker push') {
+            steps {
+                bat "docker push -t http://192.168.56.31:443/dockeruser/claculator ."
             }
         }
     }
