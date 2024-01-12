@@ -55,5 +55,10 @@ pipeline {
                 sh "docker push 127.0.0.1:443/dockeruser/calculator"
             }
         }
+        stage('Deploy to staging') {
+            steps {
+                sh "docker run -d --rm -p 8765:8090 --name calculator 127.0.0.1:443/dockeruser/calculator"
+            }
+        }
     }
 }
