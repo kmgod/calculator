@@ -10,8 +10,7 @@ pipeline {
         }
         stage('Compile') {
             steps {
-                sh "chmod +x gradlew"
-                sh "./gradlew compileJava"
+                sh "chmod +x gradlew && ./gradlew compileJava"
             }
         }
         stage('Unit test') {
@@ -58,6 +57,12 @@ pipeline {
         stage('Deploy to staging') {
             steps {
                 sh "docker run -d --rm -p 8765:8090 --name calculator 127.0.0.1:443/dockeruser/calculator"
+            }
+        }
+        stage('Acceptance test') {
+            steps {
+                sleep 60
+                sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
             }
         }
     }
