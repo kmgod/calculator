@@ -46,12 +46,17 @@ pipeline {
         }
         stage('Docker build') {
             steps {
-                sh "docker build -t 192.168.56.31:443/dockeruser/calculator ."
+                sh "docker build -t 192.168.56.31:443/dockeruser/calculator:${BUILD_TIMESTAMP} ."
             }
         }
         stage('Docker push') {
             steps {
-                sh "docker push 192.168.56.31:443/dockeruser/calculator"
+                sh "docker push 192.168.56.31:443/dockeruser/calculator:${BUILD_TIMESTAMP}"
+            }
+        }
+        stage('Update version') {
+            steps {
+                sh "sed  -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' deployment.yaml"
             }
         }
         stage('Deploy to staging') {
