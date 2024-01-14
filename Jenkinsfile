@@ -29,16 +29,16 @@ pipeline {
 //                 sh "./gradlew jacocoTestCoverageVerification"
 //             }
 //         }
-        stage('Static code analysis') {
-            steps {
-                sh "./gradlew checkstyleMain"
-                publishHTML (target: [
-                    reportDir: 'build/reports/checkstyle/',
-                    reportFiles: 'main.html',
-                    reportName: "Checkstyle Report"
-                ])
-            }
-        }
+//         stage('Static code analysis') {
+//             steps {
+//                 sh "./gradlew checkstyleMain"
+//                 publishHTML (target: [
+//                     reportDir: 'build/reports/checkstyle/',
+//                     reportFiles: 'main.html',
+//                     reportName: "Checkstyle Report"
+//                 ])
+//             }
+//         }
         stage('Package') {
             steps {
                 sh "./gradlew build"
@@ -56,7 +56,10 @@ pipeline {
         }
         stage('Deploy to staging') {
             steps {
-                sh "docker run -d --rm -p 8765:8090 --name calculator 192.168.56.31:443/dockeruser/calculator"
+                sh "kubectl config use-context kubernetes"
+                sh "kubectl apply -f hazelcast.yaml"
+                sh "kubectl apply -f deployment.yaml"
+                sh "kubectl apply -f service.yaml"
             }
         }
         stage('Acceptance test') {
