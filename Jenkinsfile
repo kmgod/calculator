@@ -56,7 +56,6 @@ pipeline {
         }
         stage('Deploy to staging') {
             steps {
-                sh "kubectl config use-context kubernetes"
                 sh "kubectl apply -f hazelcast.yaml"
                 sh "kubectl apply -f deployment.yaml"
                 sh "kubectl apply -f service.yaml"
@@ -69,9 +68,9 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            sh "docker stop calculator"
-        }
-    }
+//     post {
+//         always {
+//             sh "docker stop calculator"
+//         }
+//     }
 }
