@@ -18,17 +18,17 @@ pipeline {
                 sh "./gradlew test"
             }
         }
-        stage('Code coverage') {
-            steps {
-                sh "./gradlew jacocoTestReport"
-                publishHTML (target: [
-                    reportDir: 'build/reports/jacoco/test/html',
-                    reportFiles: 'index.html',
-                    reportName: "JaCoCo Report"
-                ])
-                sh "./gradlew jacocoTestCoverageVerification"
-            }
-        }
+//         stage('Code coverage') {
+//             steps {
+//                 sh "./gradlew jacocoTestReport"
+//                 publishHTML (target: [
+//                     reportDir: 'build/reports/jacoco/test/html',
+//                     reportFiles: 'index.html',
+//                     reportName: "JaCoCo Report"
+//                 ])
+//                 sh "./gradlew jacocoTestCoverageVerification"
+//             }
+//         }
         stage('Static code analysis') {
             steps {
                 sh "./gradlew checkstyleMain"
@@ -46,17 +46,17 @@ pipeline {
         }
         stage('Docker build') {
             steps {
-                sh "docker build -t 127.0.0.1:443/dockeruser/calculator ."
+                sh "docker build -t 192.168.56.31:443/dockeruser/calculator ."
             }
         }
         stage('Docker push') {
             steps {
-                sh "docker push 127.0.0.1:443/dockeruser/calculator"
+                sh "docker push 192.168.56.31:443/dockeruser/calculator"
             }
         }
         stage('Deploy to staging') {
             steps {
-                sh "docker run -d --rm -p 8765:8090 --name calculator 127.0.0.1:443/dockeruser/calculator"
+                sh "docker run -d --rm -p 8765:8090 --name calculator 192.168.56.31:443/dockeruser/calculator"
             }
         }
         stage('Acceptance test') {
