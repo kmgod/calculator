@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: calculator
-          image: 192.168.56.31:443/dockeruser/calculator:chahing
+          image: 192.168.56.31:443/dockeruser/calculator:{{VERSION}}
           ports:
             - containerPort: 8090
           readinessProbe:
