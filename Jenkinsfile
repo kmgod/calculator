@@ -1,10 +1,21 @@
 pipeline {
     agent any
+
+    parameters {
+        string(name: 'Environment', defaultValue: 'dev', description: 'Which environment (dev, qa, prod)?')
+
+    }
     stages {
+        stage('Environment check') {
+            steps {
+                // Get Environment from User's event
+                echo "Current environment: ${params.Environment}"
+            }
+        }
         stage('Checkout') {
             steps {
                 // Get some code from a GitHub repository
-                git url: 'https://github.com/kmgod/calculator.git', 
+                git url: 'https://github.com/kmgod/calculator.git',
                 branch: 'main'
             }
         }
