@@ -10,12 +10,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class CalculatorController {
 
+  private final CalculationRepository calculationRepository;
+
   private final Calculator calculator;
 
   @RequestMapping("/sum")
-  String sum(@RequestParam("a") Integer a,
-      @RequestParam("b") Integer b) {
-    return String.valueOf(calculator.sum(a, b));
+  String sum(@RequestParam("a") Integer a, @RequestParam("b") Integer b) {
+    String result = String.valueOf(calculator.sum(a, b));
+    calculationRepository.save(new Calculation(a.toString(),b.toString(),result));
+    return result;
   }
 
 }
